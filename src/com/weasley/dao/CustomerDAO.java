@@ -12,4 +12,7 @@ public interface CustomerDAO {
 	public List<Customer> update(Customer customer);
 	public Customer delete(Long customerId);
 	public List<Customer> delete(Customer customer);
+	List<Customer> findByFirstNameLastName(String firstName, String lastName);
+	List<Customer> findByPhoneNumber(String phoneNumber);
+	List<Customer> findByEmail(String email);
 }

@@ -2,6 +2,13 @@ package com.weasley.data;
 
 import java.io.Serializable;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
@@ -25,7 +32,24 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlType(propOrder={"customerId", "firstName", "lastName", "phoneNumber", "email"})
 @XmlRootElement
+@Entity
+@Table(schema="WEASLEY", name="Customer")
+@NamedQueries({
+	@NamedQuery(name=Customer.FIND_ALL, query="select c from Customer c"),
+	@NamedQuery(name=Customer.FIND_BY_LASTNAME, query="select c from Customer c where c.lastName = :lastName"),
+	@NamedQuery(name=Customer.FIND_BY_FIRSTNAME_LASTNAME, query="select c from Customer c where c.lastName = :lastName and c.firstName = :firstName"),
+	@NamedQuery(name=Customer.FIND_BY_PHONENUMBER, query="select c from Customer c where c.phoneNumber = :phoneNumber"),
+	@NamedQuery(name=Customer.FIND_BY_EMAIL, query="select c from Customer c where c.email = :email"),
+})
 public class Customer implements Serializable {
+	public static final String FIND_ALL = "Customer.FIND_ALL";
+	public static final String FIND_BY_LASTNAME = "Customer.FIND_BY_LASTNAME";
+	public static final String FIND_BY_FIRSTNAME_LASTNAME = "Customer.FIND_BY_FIRSTNAME_LASTNAME";
+	public static final String FIND_BY_PHONENUMBER = "Customer.FIND_BY_PHONENUMBER";
+	public static final String FIND_BY_EMAIL = "Customer.FIND_BY_EMAIL";
+	
+	
+	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long customerId = -1L;
 	private String firstName, lastName, phoneNumber, email;
 
